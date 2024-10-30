@@ -4,7 +4,7 @@
     ViewData["Title"] = "Index";
 }
 
-<h1>Index</h1>
+<h1>Movie-Actor Relationships</h1>
 
 <p>
     <a asp-action="Create">Create New</a>
@@ -31,6 +31,10 @@
                     var base64 = Convert.ToBase64String(item.Movie.Poster);
                     var imgSrc = string.Format("data:image/jpg;base64,{0}", base64);
                     <img src="@imgSrc" height="70" width="70" style="border-radius:50%" />
+                }
+                else
+                {
+                    @Html.DisplayText("No photo found")
                 }
                 @Html.DisplayFor(modelItem => item.Movie.Title)
             </td>

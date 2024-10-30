@@ -35,17 +35,29 @@ namespace Fall2024_Assignment3_mtorres3.Controllers
             }
 
             var movie = await _context.Movie
+                //.Include(m => m.Reviews)
                 .FirstOrDefaultAsync(m => m.ID == id);
             if (movie == null)
             {
                 return NotFound();
             }
 
-            return View(movie);
+            //var reviews = await _context.MovieReview
+            //    .Include(mr => mr.)
+
+            var actors = await _context.MovieActor
+                .Include(ma => ma.Actor)
+                .Where(ma => ma.MovieID == movie.ID)
+                .Select(ma => ma.Actor)
+                .ToListAsync();
+
+            var vm = new MovieDetailsViewModel(movie, actors);
+
+            return View(vm);
         }
 
         // GET: Movies/Create
-        public IActionResult Create()
+         public IActionResult Create()
         {
             return View();
         }

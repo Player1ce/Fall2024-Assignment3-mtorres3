@@ -5,5 +5,4 @@ public class MovieDetailsViewModel(Movie movie, IEnumerable<Actor> actors)
     public Movie Movie { get; set; } = movie;
 
     public IEnumerable<Actor> Actors { get; set; } = actors;
-
 }

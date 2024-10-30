@@ -40,7 +40,15 @@ namespace Fall2024_Assignment3_mtorres3.Controllers
                 return NotFound();
             }
 
-            return View(actor);
+            var movies = await _context.MovieActor
+                .Include(ma => ma.Movie)
+                .Where(ma => ma.ActorID == actor.ID)
+                .Select(ma => ma.Movie)
+                .ToListAsync();
+
+            var vm = new ActorDetailsViewModel(actor, movies);
+
+            return View(vm);
         }
 
         // GET: Actors/Create
