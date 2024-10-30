@@ -11,5 +11,5 @@ public class Actor
     public string IMDBHyperlink { get; set; }
     public byte[]? Photo { get; set; }
 
-    public IEnumerable<ActorTweet> Tweets { get; set; }
+    public IEnumerable<ActorTweet> Tweets { get; set; } = new List<ActorTweet>();
 }

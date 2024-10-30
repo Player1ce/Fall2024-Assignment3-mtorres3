@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Fall2024_Assignment3_mtorres3.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20241030101138_InitialMigration")]
-    partial class InitialMigration
+    [Migration("20241030200433_initialMigration")]
+    partial class initialMigration
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

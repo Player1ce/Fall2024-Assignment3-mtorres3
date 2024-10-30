@@ -10,7 +10,7 @@
 <hr />
 <div class="row">
     <div class="col-md-4">
-        <form asp-action="Edit">
+        <form asp-action="Edit" enctype="multipart/form-data">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" asp-for="ID" />
             <div class="form-group">
@@ -29,8 +29,19 @@
                 <span asp-validation-for="IMDBHyperlink" class="text-danger"></span>
             </div>
             <div class="form-group">
+                <label>Current Poster:</label><br />
+                @if (Model.Photo != null && Model.Photo.Length > 0)
+                {
+                    var base64 = Convert.ToBase64String(Model.Photo);
+                    var imgSrc = $"data:image/jpeg;base64,{base64}";
+                    <img src="@imgSrc" alt="Current Poster" height="100" width="100" style="border-radius:50%" />
+                }
+                else
+                {
+                    <p>No current photo available.</p>
+                }
                 <label asp-for="Photo" class="control-label"></label>
-                <input asp-for="Photo" type="file" id="Photo" name="Photo" class="form-control" />
+                <input type="file" id="Photo" name="Photo" class="form-control" />
                 <span asp-validation-for="Photo" class="text-danger"></span>
             </div>
             <div class="form-group">

@@ -94,7 +94,7 @@ namespace Fall2024_Assignment3_mtorres3.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("ID,Title,Genre,ReleaseYear,ImdbHyperlink,Poster")] Movie movie)
+        public async Task<IActionResult> Edit(int id, [Bind("ID,Title,Genre,ReleaseYear,ImdbHyperlink")] Movie movie, IFormFile? poster)
         {
             if (id != movie.ID)
             {
@@ -103,8 +103,20 @@ namespace Fall2024_Assignment3_mtorres3.Controllers
 
             if (ModelState.IsValid)
             {
-                try
+                if (poster != null && poster.Length > 0)
                 {
+                    using var memoryStream = new MemoryStream();
+                    await poster.CopyToAsync(memoryStream);
+                    movie.Poster = memoryStream.ToArray();
+                }
+                else
+                {
+                    var existingMovie = await _context.Movie.AsNoTracking().FirstOrDefaultAsync(m => m.ID == id);
+                    movie.Poster = existingMovie?.Poster;
+                }
+
+                try
+                { 
                     _context.Update(movie);
                     await _context.SaveChangesAsync();
                 }

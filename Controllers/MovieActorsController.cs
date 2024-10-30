@@ -50,7 +50,7 @@ namespace Fall2024_Assignment3_mtorres3.Controllers
         public IActionResult Create()
         {
             ViewData["ActorID"] = new SelectList(_context.Actor, "ID", "Name");
-            ViewData["MovieID"] = new SelectList(_context.Movie, "ID", "Name");
+            ViewData["MovieID"] = new SelectList(_context.Movie, "ID", "Title");
             return View();
         }
 
@@ -68,7 +68,7 @@ namespace Fall2024_Assignment3_mtorres3.Controllers
                 return RedirectToAction(nameof(Index));
             }
             ViewData["ActorID"] = new SelectList(_context.Actor, "ID", "Name", movieActor.ActorID);
-            ViewData["MovieID"] = new SelectList(_context.Movie, "ID", "Name", movieActor.MovieID);
+            ViewData["MovieID"] = new SelectList(_context.Movie, "ID", "Title", movieActor.MovieID);
             return View(movieActor);
         }
 
@@ -86,7 +86,7 @@ namespace Fall2024_Assignment3_mtorres3.Controllers
                 return NotFound();
             }
             ViewData["ActorID"] = new SelectList(_context.Actor, "ID", "Name", movieActor.ActorID);
-            ViewData["MovieID"] = new SelectList(_context.Movie, "ID", "Name", movieActor.MovieID);
+            ViewData["MovieID"] = new SelectList(_context.Movie, "ID", "Title", movieActor.MovieID);
             return View(movieActor);
         }
 
@@ -123,7 +123,7 @@ namespace Fall2024_Assignment3_mtorres3.Controllers
                 return RedirectToAction(nameof(Index));
             }
             ViewData["ActorID"] = new SelectList(_context.Actor, "ID", "Name", movieActor.ActorID);
-            ViewData["MovieID"] = new SelectList(_context.Movie, "ID", "Name", movieActor.MovieID);
+            ViewData["MovieID"] = new SelectList(_context.Movie, "ID", "Title", movieActor.MovieID);
             return View(movieActor);
         }
 

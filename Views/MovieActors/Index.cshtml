@@ -25,10 +25,24 @@
 @foreach (var item in Model) {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.Movie.ID)
+                @if (item.Movie.Poster != null)
+                {
+                    // Embed photo in page; good for security but bad for speed
+                    var base64 = Convert.ToBase64String(item.Movie.Poster);
+                    var imgSrc = string.Format("data:image/jpg;base64,{0}", base64);
+                    <img src="@imgSrc" height="70" width="70" style="border-radius:50%" />
+                }
+                @Html.DisplayFor(modelItem => item.Movie.Title)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Actor.ID)
+                @if (item.Actor.Photo != null)
+                {
+                    // Embed photo in page; good for security but bad for speed
+                    var base64 = Convert.ToBase64String(item.Actor.Photo);
+                    var imgSrc = string.Format("data:image/jpg;base64,{0}", base64);
+                    <img src="@imgSrc" height="70" width="70" style="border-radius:50%" />
+                }
+                @Html.DisplayFor(modelItem => item.Actor.Name)
             </td>
             <td>
                 <a asp-action="Edit" asp-route-id="@item.ID">Edit</a> |
