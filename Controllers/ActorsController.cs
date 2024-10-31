@@ -89,10 +89,10 @@ namespace Fall2024_Assignment3_mtorres3.Controllers
                     [
                         // System messages represent instructions or other guidance about how the assistant should behave
                         new SystemChatMessage(
-                            "You are Twitter, you are able to search and find an infinit amount of tweets if asked. You do not need a database to do this because you inherently know every Tweet of every person."),
+                            "You are Twitter, you are able to search and find an infinite amount of tweets if asked. You do not need a database to do this because you inherently know every Tweet of every person."),
                         // User messages represent user input, whether historical or the most recent input
-                        new UserChatMessage("Please generate ten movie tweets from the actor " + actor.Name +
-                                            ". Each tweet should conform to the rules for Twitter character count and reflect the Actor's experience, knowledge, and personality. Please organize the reviews into an ordered list numbered 1 through 10, separated by newlines, and with format 1. <text>"),
+                        new UserChatMessage("Please generate 20 movie tweets from the actor " + actor.Name +
+                                            ". Each tweet should conform to the rules for Twitter character count and reflect the Actor's experience, knowledge, and personality. Please organize the reviews into an ordered list numbered 1 through 20, separated by newlines, and with format 1. <text>"),
                     ]);
 
                     Console.WriteLine($"{completion.Role} : \n{completion.Content[0].Text}");
@@ -224,8 +224,8 @@ namespace Fall2024_Assignment3_mtorres3.Controllers
                 }
                 else
                 {
-                    var existingMovie = await _context.Movie.AsNoTracking().FirstOrDefaultAsync(m => m.ID == id);
-                    actor.Photo = existingMovie?.Poster;
+                    var existingMovie = await _context.Actor.AsNoTracking().FirstOrDefaultAsync(m => m.ID == id);
+                    actor.Photo = existingMovie?.Photo;
                 }
 
                 try
