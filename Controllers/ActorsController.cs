@@ -70,7 +70,7 @@ namespace Fall2024_Assignment3_mtorres3.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("ID,Name,Age,IMDBHyperlink")] Actor actor, IFormFile? photo)
+        public async Task<IActionResult> Create([Bind("ID,Name,Age,Gender,IMDBHyperlink")] Actor actor, IFormFile? photo)
         {
             if (ModelState.IsValid)
             {
@@ -129,7 +129,6 @@ namespace Fall2024_Assignment3_mtorres3.Controllers
                     //    Console.WriteLine($"Compound: {results.Compound}");
                     //    Console.WriteLine("");
                     //    Console.WriteLine("");
-
                     //}
 
                     SentimentAnalysisResults sentiment = new SentimentAnalysisResults();
@@ -208,7 +207,7 @@ namespace Fall2024_Assignment3_mtorres3.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("ID,Name,Age,IMDBHyperlink")] Actor actor, IFormFile? photo)
+        public async Task<IActionResult> Edit(int id, [Bind("ID,Name,Age,Gender,IMDBHyperlink")] Actor actor, IFormFile? photo)
         {
             if (id != actor.ID)
             {

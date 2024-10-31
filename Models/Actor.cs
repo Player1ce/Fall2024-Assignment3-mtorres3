@@ -7,6 +7,7 @@ public class Actor
     [Key]
     public int ID { get; set; }
     public string Name { get; set; }
+    public string Gender { get; set; }
     public int Age { get; set; }
     public string IMDBHyperlink { get; set; }
     public byte[]? Photo { get; set; }
