@@ -45,7 +45,7 @@ namespace Fall2024_Assignment3_mtorres3.Controllers
             }
 
             var movie = await _context.Movie
-                //.Include(m => m.Reviews)
+                .Include(m => m.Reviews)
                 .FirstOrDefaultAsync(m => m.ID == id);
             if (movie == null)
             {
@@ -123,20 +123,46 @@ namespace Fall2024_Assignment3_mtorres3.Controllers
                         }
                     }
 
+                    //foreach (string text in extractedTexts)
+                    //{
+                    //    Console.WriteLine("");
+                    //    Console.WriteLine($"review: {text}");
+                    //    Console.WriteLine("");
+                    //    var results = _analyzer.PolarityScores(text);
+                    //    Console.WriteLine($"Positive: {results.Positive}");
+                    //    Console.WriteLine($"Negative: {results.Negative}");
+                    //    Console.WriteLine($"Neutral: {results.Neutral}");
+                    //    Console.WriteLine($"Compound: {results.Compound}");
+                    //    Console.WriteLine("");
+                    //    Console.WriteLine("");
+
+                    //}
+
+                    SentimentAnalysisResults sentiment = new SentimentAnalysisResults();
+
+                    var reviews = new List<MovieReview>();
+
                     foreach (string text in extractedTexts)
                     {
-                        Console.WriteLine("");
-                        Console.WriteLine($"review: {text}");
-                        Console.WriteLine("");
-                        var results = _analyzer.PolarityScores(text);
-                        Console.WriteLine($"Positive: {results.Positive}");
-                        Console.WriteLine($"Negative: {results.Negative}");
-                        Console.WriteLine($"Neutral: {results.Neutral}");
-                        Console.WriteLine($"Compound: {results.Compound}");
-                        Console.WriteLine("");
-                        Console.WriteLine("");
+                        sentiment = _analyzer.PolarityScores(text);
 
+                        MovieReview review = new MovieReview
+                        {
+                            MovieID = movie.ID,
+                            Text = text,
+                            Positive = sentiment.Positive,
+                            Negative = sentiment.Negative,
+                            Neutral = sentiment.Neutral,
+                            Compound = sentiment.Compound
+                        };
+
+                        reviews.Add(review);
+
+                        _context.MovieReview.Add(review);
                     }
+
+                    movie.Reviews = reviews;
+
                 }
                 catch (Exception ex)
                 {

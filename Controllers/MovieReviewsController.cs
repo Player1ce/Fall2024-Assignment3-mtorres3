@@ -37,7 +37,6 @@ namespace Fall2024_Assignment3_mtorres3.Controllers
             var movieReview = await _context.MovieReview
                 .Include(m => m.Movie)
                 .FirstOrDefaultAsync(m => m.ID == id);
-            
             if (movieReview == null)
             {
                 return NotFound();
@@ -49,7 +48,7 @@ namespace Fall2024_Assignment3_mtorres3.Controllers
         // GET: MovieReviews/Create
         public IActionResult Create()
         {
-            ViewData["MovieID"] = new SelectList(_context.Movie, "ID", "Title");
+            ViewData["MovieID"] = new SelectList(_context.Movie, "ID", "ID");
             return View();
         }
 
@@ -58,7 +57,7 @@ namespace Fall2024_Assignment3_mtorres3.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("MovieID,ID,Text,Sentiment")] MovieReview movieReview)
+        public async Task<IActionResult> Create([Bind("MovieID,ID,Text,Positive,Negative,Neutral,Compound")] MovieReview movieReview)
         {
             if (ModelState.IsValid)
             {
@@ -66,7 +65,7 @@ namespace Fall2024_Assignment3_mtorres3.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["MovieID"] = new SelectList(_context.Movie, "ID", "Title", movieReview.MovieID);
+            ViewData["MovieID"] = new SelectList(_context.Movie, "ID", "ID", movieReview.MovieID);
             return View(movieReview);
         }
 
@@ -83,7 +82,7 @@ namespace Fall2024_Assignment3_mtorres3.Controllers
             {
                 return NotFound();
             }
-            ViewData["MovieID"] = new SelectList(_context.Movie, "ID", "Title", movieReview.MovieID);
+            ViewData["MovieID"] = new SelectList(_context.Movie, "ID", "ID", movieReview.MovieID);
             return View(movieReview);
         }
 
@@ -92,7 +91,7 @@ namespace Fall2024_Assignment3_mtorres3.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("MovieID,ID,Text,Sentiment")] MovieReview movieReview)
+        public async Task<IActionResult> Edit(int id, [Bind("MovieID,ID,Text,Positive,Negative,Neutral,Compound")] MovieReview movieReview)
         {
             if (id != movieReview.ID)
             {
@@ -119,7 +118,7 @@ namespace Fall2024_Assignment3_mtorres3.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["MovieID"] = new SelectList(_context.Movie, "ID", "Title", movieReview.MovieID);
+            ViewData["MovieID"] = new SelectList(_context.Movie, "ID", "ID", movieReview.MovieID);
             return View(movieReview);
         }
 

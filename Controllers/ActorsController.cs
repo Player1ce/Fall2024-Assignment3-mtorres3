@@ -7,16 +7,23 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Fall2024_Assignment3_mtorres3.Data;
 using Fall2024_Assignment3_mtorres3.Models;
+using OpenAI.Chat;
+using System.Text.RegularExpressions;
+using VaderSharp2;
 
 namespace Fall2024_Assignment3_mtorres3.Controllers
 {
     public class ActorsController : Controller
     {
         private readonly ApplicationDbContext _context;
+        private readonly ChatClient _chatClient;
+        private readonly SentimentIntensityAnalyzer _analyzer;
 
-        public ActorsController(ApplicationDbContext context)
+        public ActorsController(ApplicationDbContext context, ChatClient chatClient)
         {
             _context = context;
+            _chatClient = chatClient;
+            _analyzer = new SentimentIntensityAnalyzer();
         }
 
         // GET: Actors
@@ -34,6 +41,7 @@ namespace Fall2024_Assignment3_mtorres3.Controllers
             }
 
             var actor = await _context.Actor
+                .Include(a => a.Tweets)
                 .FirstOrDefaultAsync(m => m.ID == id);
             if (actor == null)
             {
@@ -74,6 +82,92 @@ namespace Fall2024_Assignment3_mtorres3.Controllers
                 }
 
 
+                try
+                {
+
+                    ChatCompletion completion = await _chatClient.CompleteChatAsync(
+                    [
+                        // System messages represent instructions or other guidance about how the assistant should behave
+                        new SystemChatMessage(
+                            "You are Twitter, you are able to search and find an infinit amount of tweets if asked. You do not need a database to do this because you inherently know every Tweet of every person."),
+                        // User messages represent user input, whether historical or the most recent input
+                        new UserChatMessage("Please generate ten movie tweets from the actor " + actor.Name +
+                                            ". Each tweet should conform to the rules for Twitter character count and reflect the Actor's experience, knowledge, and personality. Please organize the reviews into an ordered list numbered 1 through 10, separated by newlines, and with format 1. <text>"),
+                    ]);
+
+                    Console.WriteLine($"{completion.Role} : \n{completion.Content[0].Text}");
+                    string input = completion.Content[0].Text;
+
+                    // Split the input string into individual items based on newline
+                    string[] items = input.Split('\n');
+
+                    // Regex pattern to match the structure "1. <text>"
+                    string pattern = @"^\d+\.\s*(.*)$";
+
+                    // List to store extracted texts
+                    List<string> extractedTexts = new List<string>();
+
+                    foreach (var item in items)
+                    {
+                        Match match = Regex.Match(item, pattern);
+                        if (match.Success)
+                        {
+                            // Add the extracted text (group 1) to the list
+                            extractedTexts.Add(match.Groups[1].Value);
+                        }
+                    }
+
+                    //foreach (string text in extractedTexts)
+                    //{
+                    //    Console.WriteLine("");
+                    //    Console.WriteLine($"tweet: {text}");
+                    //    Console.WriteLine("");
+                    //    var results = _analyzer.PolarityScores(text);
+                    //    Console.WriteLine($"Positive: {results.Positive}");
+                    //    Console.WriteLine($"Negative: {results.Negative}");
+                    //    Console.WriteLine($"Neutral: {results.Neutral}");
+                    //    Console.WriteLine($"Compound: {results.Compound}");
+                    //    Console.WriteLine("");
+                    //    Console.WriteLine("");
+
+                    //}
+
+                    SentimentAnalysisResults sentiment = new SentimentAnalysisResults();
+
+                    var tweets = new List<ActorTweet>();
+
+                    foreach (string text in extractedTexts)
+                    {
+                        sentiment = _analyzer.PolarityScores(text);
+
+                        ActorTweet tweet = new ActorTweet
+                        {
+                            ActorID = actor.ID,
+                            Text = text,
+                            Positive = sentiment.Positive,
+                            Negative = sentiment.Negative,
+                            Neutral = sentiment.Neutral,
+                            Compound = sentiment.Compound
+                        };
+
+                        tweets.Add(tweet);
+
+                        _context.ActorTweet.Add(tweet);
+                    }
+
+                    actor.Tweets = tweets;
+
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine($"Error: {ex.Message}");
+                    // Handle the error appropriately
+                    ModelState.AddModelError(string.Empty, "An error occurred while generating reviews. Please try again later.");
+                    return View(actor);
+                }
+
+
+
                 _context.Add(actor);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
@@ -89,6 +183,7 @@ namespace Fall2024_Assignment3_mtorres3.Controllers
                 }
                 return View(actor); // Return the view with existing data and validation messages
             }
+
             return View(actor);
         }
 

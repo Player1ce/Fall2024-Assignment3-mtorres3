@@ -38,10 +38,10 @@ builder.Services.AddSingleton<ChatClient>(sp =>
     var endpoint = builder.Configuration["AZURE_OPENAI_ENDPOINT"];
     var deploymentName = builder.Configuration["DEPLOYMENT_NAME"];
     
-    Console.WriteLine("In Singleton Service.");
-    Console.WriteLine($"ApiKey: {apiKey}");
-    Console.WriteLine($"endpoint: {endpoint}");
-    Console.WriteLine($"deploymentName: {deploymentName}");
+    //Console.WriteLine("In Singleton Service.");
+    //Console.WriteLine($"ApiKey: {apiKey}");
+    //Console.WriteLine($"endpoint: {endpoint}");
+    //Console.WriteLine($"deploymentName: {deploymentName}");
 
     var azureClient = new AzureOpenAIClient(new Uri(endpoint), new AzureKeyCredential(apiKey));
     return azureClient.GetChatClient(deploymentName);

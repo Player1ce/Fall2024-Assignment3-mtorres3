@@ -19,7 +19,16 @@
                 @Html.DisplayNameFor(model => model.Text)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Sentiment)
+                @Html.DisplayNameFor(model => model.Positive)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Negative)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Neutral)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Compound)
             </th>
             <th></th>
         </tr>
@@ -34,7 +43,16 @@
                 @Html.DisplayFor(modelItem => item.Text)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Sentiment)
+                @Html.DisplayFor(modelItem => item.Positive)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Negative)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Neutral)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Compound)
             </td>
             <td>
                 <a asp-action="Edit" asp-route-id="@item.ID">Edit</a> |

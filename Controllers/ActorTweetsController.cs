@@ -48,7 +48,7 @@ namespace Fall2024_Assignment3_mtorres3.Controllers
         // GET: ActorTweets/Create
         public IActionResult Create()
         {
-            ViewData["ActorID"] = new SelectList(_context.Actor, "ID", "Name");
+            ViewData["ActorID"] = new SelectList(_context.Actor, "ID", "ID");
             return View();
         }
 
@@ -57,7 +57,7 @@ namespace Fall2024_Assignment3_mtorres3.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("ActorID,ID,Text,Sentiment")] ActorTweet actorTweet)
+        public async Task<IActionResult> Create([Bind("ActorID,ID,Text,Positive,Negative,Neutral,Compound")] ActorTweet actorTweet)
         {
             if (ModelState.IsValid)
             {
@@ -65,7 +65,7 @@ namespace Fall2024_Assignment3_mtorres3.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["ActorID"] = new SelectList(_context.Actor, "ID", "Name", actorTweet.ActorID);
+            ViewData["ActorID"] = new SelectList(_context.Actor, "ID", "ID", actorTweet.ActorID);
             return View(actorTweet);
         }
 
@@ -82,7 +82,7 @@ namespace Fall2024_Assignment3_mtorres3.Controllers
             {
                 return NotFound();
             }
-            ViewData["ActorID"] = new SelectList(_context.Actor, "ID", "Name", actorTweet.ActorID);
+            ViewData["ActorID"] = new SelectList(_context.Actor, "ID", "ID", actorTweet.ActorID);
             return View(actorTweet);
         }
 
@@ -91,7 +91,7 @@ namespace Fall2024_Assignment3_mtorres3.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("ActorID,ID,Text,Sentiment")] ActorTweet actorTweet)
+        public async Task<IActionResult> Edit(int id, [Bind("ActorID,ID,Text,Positive,Negative,Neutral,Compound")] ActorTweet actorTweet)
         {
             if (id != actorTweet.ID)
             {
@@ -118,7 +118,7 @@ namespace Fall2024_Assignment3_mtorres3.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["ActorID"] = new SelectList(_context.Actor, "ID", "Name", actorTweet.ActorID);
+            ViewData["ActorID"] = new SelectList(_context.Actor, "ID", "ID", actorTweet.ActorID);
             return View(actorTweet);
         }
 

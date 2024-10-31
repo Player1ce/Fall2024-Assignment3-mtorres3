@@ -4,6 +4,7 @@ using Fall2024_Assignment3_mtorres3.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Fall2024_Assignment3_mtorres3.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20241031013422_UpdatedSentimentAnalyzedText")]
+    partial class UpdatedSentimentAnalyzedText
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -377,8 +380,7 @@ namespace Fall2024_Assignment3_mtorres3.Migrations
                 {
                     b.HasOne("Fall2024_Assignment3_mtorres3.Models.Actor", "Actor")
                         .WithMany("Tweets")
-                        .HasForeignKey("ActorID")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .HasForeignKey("ActorID");
 
                     b.Navigation("Actor");
                 });
@@ -406,8 +408,7 @@ namespace Fall2024_Assignment3_mtorres3.Migrations
                 {
                     b.HasOne("Fall2024_Assignment3_mtorres3.Models.Movie", "Movie")
                         .WithMany("Reviews")
-                        .HasForeignKey("MovieID")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .HasForeignKey("MovieID");
 
                     b.Navigation("Movie");
                 });

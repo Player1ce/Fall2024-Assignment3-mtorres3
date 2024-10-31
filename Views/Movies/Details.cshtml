@@ -58,7 +58,61 @@
 </div>
 
 
-<h5>Actors</h5>
+
+<h3>Reviews</h3>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Movie.Reviews)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Movie.Reviews.FirstOrDefault().Positive)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Movie.Reviews.FirstOrDefault().Negative)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Movie.Reviews.FirstOrDefault().Neutral)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Movie.Reviews.FirstOrDefault().Compound)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.Movie.Reviews)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Text)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Positive)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Negative)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Neutral)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Compound)
+                </td>
+                <td>
+                    <a asp-controller="ActorTweets" asp-action="Edit" asp-route-id="@item.ID">Edit</a> |
+                    <a asp-controller="ActorTweets" asp-action="Details" asp-route-id="@item.ID">Details</a> |
+                    <a asp-controller="ActorTweets" asp-action="Delete" asp-route-id="@item.ID">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+
+
+<h3>Actors</h3>
 <table class="table">
     <thead>
     <tr>
