@@ -34,12 +34,12 @@
                 <span asp-validation-for="IMDBHyperlink" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label>Current Poster:</label><br />
+                <label>Current Photo:</label><br />
                 @if (Model.Photo != null && Model.Photo.Length > 0)
                 {
                     var base64 = Convert.ToBase64String(Model.Photo);
                     var imgSrc = $"data:image/jpeg;base64,{base64}";
-                    <img src="@imgSrc" alt="Current Poster" height="100" width="100" style="border-radius:50%" />
+                    <img class="rounded-circle" src="@imgSrc" height="200" />
                 }
                 else
                 {
